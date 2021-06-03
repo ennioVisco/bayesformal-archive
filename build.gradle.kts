@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+    implementation(files("lib/moonlight.jar"))
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.6")
+    implementation("org.slf4j:slf4j-simple:1.7.29")
     testImplementation(kotlin("test"))
 }
 

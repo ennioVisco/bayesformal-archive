@@ -1,2 +1,5 @@
 # Project exclude paths
 /.gradle/
+output/*.csv
+output/**/*.csv
+/build/*
