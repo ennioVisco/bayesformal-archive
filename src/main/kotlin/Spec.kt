@@ -14,7 +14,6 @@ import eu.quanticol.moonlight.space.DistanceStructure
 import eu.quanticol.moonlight.space.SpatialModel
 import java.util.function.Function
 
-
 /**
  * Numeric constants of the problem
  */
@@ -25,8 +24,6 @@ const val TH = 3.0 // properties time horizon
 const val d1: Double = 0.0
 const val d2: Double = 1.0
 const val d3: Double = 4.0
-
-
 
 fun distances():
 HashMap<String, Function<SpatialModel<Double>, DistanceStructure<Double, *>>>

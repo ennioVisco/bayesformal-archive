@@ -1,14 +1,23 @@
+import at.ac.tuwien.cps.grid.Grid
 import eu.quanticol.moonlight.domain.BooleanDomain
 import eu.quanticol.moonlight.domain.DoubleDomain
 import eu.quanticol.moonlight.domain.SignalDomain
 import eu.quanticol.moonlight.io.DataReader
 import eu.quanticol.moonlight.io.FileType
 import eu.quanticol.moonlight.io.parsing.MultiRawTrajectoryExtractor
+import eu.quanticol.moonlight.space.SpatialModel
 import eu.quanticol.moonlight.statistics.SignalStatistics.Statistics
 import eu.quanticol.moonlight.util.MultiValuedTrace
 import mu.KotlinLogging
 import java.io.InputStream
 import java.lang.IllegalArgumentException
+import kotlin.math.log10
+
+/**
+ * Internals
+ */
+val logger = KotlinLogging.logger {}
+const val INVALID_DOMAIN = "Unsupported Signal Domain!"
 
 /**
  * Source files location
@@ -16,13 +25,21 @@ import java.lang.IllegalArgumentException
 const val DATA_DIR = "CARar_3_steps_ahead/"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
-const val TRACES = 100
+const val TRACES = 10
 
 /**
- * Internals
+ * We initialize the domains and the spatial network
+ * @see Grid for a description of the spatial model.
  */
-private val logger = KotlinLogging.logger {}
-const val INVALID_DOMAIN = "Unsupported Signal Domain!"
+val network: SpatialModel<Double> = Grid().getModel(path(NETWORK_FILE))
+
+/**
+ * Signal Dimensions (i.e. signal domain)
+ */
+val processor = ErlangSignal(4)
+val multiTrace = MultiRawTrajectoryExtractor(network.size(), processor)
+
+
 
 private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_144_h_"
 private const val TRACE_FILE_EXT = ".csv"
@@ -34,14 +51,19 @@ val ROBUSTNESS: SignalDomain<Double> = DoubleDomain()
 val SATISFACTION: SignalDomain<Boolean> = BooleanDomain()
 
 
-fun loadTrajectories(spaceSize: Int, last: Int): Collection<MultiValuedTrace> {
-    val trajectories: MutableCollection<MultiValuedTrace> = ArrayList()
+fun loadTrajectories(spaceSize: Int, last: Int): MutableList<MultiValuedTrace> {
+    val trajectories: MutableList<MultiValuedTrace> = ArrayList()
     for (i in 1..last) {
-        val t = i.toString().padStart(3, '0')
+        val t = i.padString()
         trajectories.add(loadTrajectory(t, spaceSize))
-        logger.info("Trajectory $i loaded successfully!")
+        logger.info("Trajectory $t loaded successfully!")
     }
     return trajectories
+}
+
+fun Int.padString(n: Int = 100): String {
+    return this.toString()
+               .padStart(log10(n.toDouble()).toInt() + 1, '0')
 }
 
 fun loadTrajectory(i: String, networkSize: Int): MultiValuedTrace {

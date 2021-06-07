@@ -1,33 +1,17 @@
-import at.ac.tuwien.cps.grid.Grid
 import eu.quanticol.moonlight.io.DataWriter
 import eu.quanticol.moonlight.io.FileType
-import eu.quanticol.moonlight.io.parsing.MultiRawTrajectoryExtractor
 import eu.quanticol.moonlight.io.parsing.RawTrajectoryExtractor
 import eu.quanticol.moonlight.monitoring.spatialtemporal.SpatialTemporalMonitor
 import eu.quanticol.moonlight.signal.SpatialTemporalSignal
 import eu.quanticol.moonlight.space.LocationService
 import eu.quanticol.moonlight.util.MultiValuedTrace
 import eu.quanticol.moonlight.util.TestUtils
-import mu.KotlinLogging
 import java.util.function.ToDoubleFunction
 import java.util.stream.IntStream
-import kotlin.math.log10
-
-private val logger = KotlinLogging.logger {}
+import kotlinx.coroutines.*
 
 private const val RESULT = "_grid_21x21_T_144.csv"
 
-/**
- * We initialize the domains and the spatial network
- * @see Grid for a description of the spatial model.
- */
-private val network = Grid().getModel(path(NETWORK_FILE))
-
-/**
- * Signal Dimensions (i.e. signal domain)
- */
-private val processor = ErlangSignal(4)
-private val multiTrace = MultiRawTrajectoryExtractor(network.size(), processor)
 
 fun main() {
     logger.info { "The network size is: " + network.size() }
@@ -36,7 +20,7 @@ fun main() {
         multiTrace.timePoints.toDouble(),
         network
     )
-    val trajectories = loadTrajectories(network.size(), 1)
+    val trajectories = loadTrajectories(network.size(), TRACES)
     val booleans = ToDoubleFunction { x: Boolean -> if (x) 1.0 else 0.0 }
     val doubles = ToDoubleFunction { obj: Double -> obj }
 
@@ -53,24 +37,47 @@ fun main() {
 private fun <D> run(
     id: String,
     f: ToDoubleFunction<D>,
-    trajectories: Collection<MultiValuedTrace>,
+    trajectories: MutableList<MultiValuedTrace>,
     locService: LocationService<Double, Double>,
     m: SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
 ) {
-    var i = 1
+
+    runBlocking {
+        doMonitoring(id, trajectories, f, locService, m)
+    }
+
+/*    var i = 1
     for (t in trajectories) {
-        val v = i
         Thread {
             val s = m.monitor(locService, t)
             val r = toArray(s, f)
             val strategy = RawTrajectoryExtractor(network.size())
-            val dest = outputFile(id, v.toString()
-                            .padStart(log10(TRACES.toDouble()).toInt(), '0'))
+            val dest = outputFile(id, i.padString(TRACES))
             DataWriter(dest, FileType.CSV, strategy).write(r)
             logger.info("The Monitoring of a trajectory has been completed!")
         }.start()
         i++
-    }
+    }*/
+}
+
+suspend fun <D> doMonitoring(id: String,
+             trajectories: MutableList<MultiValuedTrace>,
+             f: ToDoubleFunction<D>, locSvc: LocationService<Double, Double>,
+             m: SpatialTemporalMonitor<Double, List<Comparable<*>>, D>) =
+    withContext(Dispatchers.Default) {
+        trajectories.forEachIndexed { i: Int, t: MultiValuedTrace ->
+            logger.info("Starting monitor for ${i + 1}!")
+            launch { // launch a new coroutine and continue
+                val s = m.monitor(locSvc, t)
+                val r = toArray(s, f)
+                val strategy = RawTrajectoryExtractor(network.size())
+                val dest = outputFile(id, (i + 1).padString())
+                DataWriter(dest, FileType.CSV, strategy).write(r)
+                logger.info("The Monitoring of a trajectory has been completed!")
+            }
+            logger.info("From ${i + 1}, going on...")
+        }
+
 }
 
 fun <D> toArray(signal: SpatialTemporalSignal<D>, f: ToDoubleFunction<D>): Array<DoubleArray>
