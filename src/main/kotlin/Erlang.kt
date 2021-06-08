@@ -20,6 +20,8 @@ fun main() {
                                         )
     val trajectories = loadTrajectories(network.size(), TRACES)
 
+    // Fake property to plot real data
+    smc(phi0(), "real", trajectories, locSvc)
 
     smc(phi1(SATISFACTION), "s_p1", trajectories, locSvc)
     smc(phi1(ROBUSTNESS), "r_p1", trajectories, locSvc)

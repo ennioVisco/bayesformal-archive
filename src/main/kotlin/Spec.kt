@@ -200,9 +200,9 @@ fun <D> real_phi3(d: SignalDomain<D>):
 /**
  * For debugging
  */
-fun <D> phi0(d: SignalDomain<D>): SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
+fun phi0(): SpatialTemporalMonitor<Double, List<Comparable<*>>, Double>
 {
-    return notMonitor(isNotCrowded(d), d)
+    return crowdedness()
 }
 
 // --------- ATOMIC PREDICATES --------- //
@@ -218,6 +218,13 @@ fun <D> isNotCrowded(d: SignalDomain<D>): SpatialTemporalMonitor<Double, List<Co
                     as SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
         }
         else -> throw UnsupportedOperationException(INVALID_DOMAIN)
+    }
+}
+
+fun crowdedness(): SpatialTemporalMonitor<Double, List<Comparable<*>>, Double>
+{
+    return atomicMonitor{ s: List<Comparable<*>> ->
+        (s[LOC_CROWDEDNESS] as Float).toDouble()
     }
 }
 
