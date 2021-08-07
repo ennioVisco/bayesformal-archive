@@ -4,3 +4,6 @@
 #output/**/*.csv
 /build/*
 .idea/sonarlint
+
+# Exclude files from language stats
+*.ipynb linguist-vendored=false
