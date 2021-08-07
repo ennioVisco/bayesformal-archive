@@ -43,7 +43,7 @@ class ErlangSignal(private val dimensions: Int) : SignalProcessor<Float> {
         }
         for (l in 0 until size) {
             for (t in 0 until length) {
-                isHospital[l][t] = isHospital(l, t)
+                isHospital[l][t] = isHospital(l)
             }
         }
         for (i in data.indices) {
@@ -63,7 +63,7 @@ class ErlangSignal(private val dimensions: Int) : SignalProcessor<Float> {
     }
 
     // ------------- SIGNAL EXTRACTORS ------------- ////
-    private fun isHospital(l: Int, t: Int): Boolean {
+    private fun isHospital(l: Int): Boolean {
         // Starting from (0,0)
         // Hospitals: (4,10) | (12,8) | (10,17)
         return l == 4 + 10 * 21 || l == 12 + 8 * 21 || l == 10 + 17 * 21
