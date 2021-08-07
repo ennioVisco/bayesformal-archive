@@ -8,6 +8,7 @@ plugins {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
+            artifactId = "bayesformal"
             from(components["java"])
             versionMapping {
                 usage("java-api") {
@@ -15,6 +16,29 @@ publishing {
                 }
                 usage("java-runtime") {
                     fromResolutionResult()
+                }
+            }
+            pom {
+                name.set("Bayes-Formal Experiment")
+                description.set("An experiment to explore a bayes-formal approach to smart city analysis")
+                url.set("https://zk35.org/")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("ennioVisco")
+                        name.set("Ennio Visconti")
+                        email.set("ennio.visconti@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/ennioVisco/bayesformal.git")
+                    developerConnection.set("scm:git:ssh://github.com/ennioVisco/bayesformal.git")
+                    url.set("https://github.com/ennioVisco/bayesformal/")
                 }
             }
         }
