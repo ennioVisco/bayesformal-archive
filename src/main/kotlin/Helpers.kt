@@ -5,12 +5,15 @@ import eu.quanticol.moonlight.domain.SignalDomain
 import eu.quanticol.moonlight.io.DataReader
 import eu.quanticol.moonlight.io.FileType
 import eu.quanticol.moonlight.io.parsing.MultiRawTrajectoryExtractor
+import eu.quanticol.moonlight.signal.SpatialTemporalSignal
 import eu.quanticol.moonlight.space.SpatialModel
 import eu.quanticol.moonlight.statistics.SignalStatistics.Statistics
 import eu.quanticol.moonlight.util.MultiValuedTrace
 import mu.KotlinLogging
 import java.io.InputStream
 import java.lang.IllegalArgumentException
+import java.util.function.ToDoubleFunction
+import java.util.stream.IntStream
 import kotlin.math.log10
 
 /**
@@ -22,9 +25,11 @@ const val INVALID_DOMAIN = "Unsupported Signal Domain!"
 /**
  * Source files location
  */
+const val DATA_DIR = "ar_Normal/"
 //const val DATA_DIR = "ar_rhoS0_Normal/"
 //const val DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
-const val DATA_DIR = "ar_rhoS05_Normal/"
+//const val DATA_DIR = "ar_rhoS05_Normal/"
+//const val DATA_DIR = "CARar_3_steps_ahead/"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
 const val TRACES = 10
@@ -43,7 +48,7 @@ val multiTrace = MultiRawTrajectoryExtractor(network.size(), processor)
 
 
 
-private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_142_h_"
+private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_144_h_"
 private const val TRACE_FILE_EXT = ".csv"
 
 /**
@@ -61,6 +66,21 @@ fun loadTrajectories(spaceSize: Int, last: Int): MutableList<MultiValuedTrace> {
         logger.info("Trajectory $t loaded successfully!")
     }
     return trajectories
+}
+
+fun <D> toArray(signal: SpatialTemporalSignal<D>, f: ToDoubleFunction<D>):
+        Array<DoubleArray>
+{
+    val times = signal.signals[0].end().toInt() + 1
+    val toReturn = Array(signal.size()) {
+        DoubleArray(times)
+    }
+    IntStream.range(0, signal.size()).forEach { i: Int ->
+        val s = signal.signals[i]
+        IntStream.range(0, times).forEach { j: Int -> toReturn[i][j] =
+                f.applyAsDouble(s.getValueAt(j.toDouble()))}
+    }
+    return toReturn
 }
 
 fun Int.padString(n: Int = 100): String {
