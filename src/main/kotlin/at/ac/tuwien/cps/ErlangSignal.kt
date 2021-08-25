@@ -1,3 +1,5 @@
+package at.ac.tuwien.cps
+
 import eu.quanticol.moonlight.io.parsing.SignalProcessor
 import eu.quanticol.moonlight.util.MultiValuedTrace
 
@@ -6,7 +8,7 @@ class ErlangSignal(private val dimensions: Int) : SignalProcessor<Float> {
     private var length = 0
     private var currDim = 0
     private var trace: MultiValuedTrace? = null
-    var data: Array<Array<Array<Float>>?> = arrayOfNulls(4)
+    private val data: Array<Array<Array<Float>>?> = arrayOfNulls(4)
 
     override fun initializeSpaceTime(space: Int, time: Int) {
         size = space
@@ -56,7 +58,7 @@ class ErlangSignal(private val dimensions: Int) : SignalProcessor<Float> {
              .setDimension(pred1, CROWDEDNESS_1_STEP) // 1 Step Predictor
              .setDimension(pred2, CROWDEDNESS_2_STEP) // 2 Step Predictor
              .setDimension(pred3, CROWDEDNESS_3_STEP) // 3 Step Predictor
-             .setDimension(isHospital, IS_HOSPITAL)   // POI ID boolean
+             .setDimension(at.ac.tuwien.cps.isHospital, IS_HOSPITAL)   // POI ID boolean
              .initialize();
         */trace!!.initialize()
         return trace

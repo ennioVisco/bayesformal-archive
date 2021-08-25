@@ -1,3 +1,6 @@
+package at.ac.tuwien.cps
+
+import at.ac.tuwien.cps.spec.*
 import eu.quanticol.moonlight.io.DataWriter
 import eu.quanticol.moonlight.io.FileType
 import eu.quanticol.moonlight.io.parsing.RawTrajectoryExtractor
@@ -12,7 +15,7 @@ private const val RESULT = "_smc_grid_21x21_T_144.csv"
 
 
 fun main() {
-    logger.info{"The network size is: ${network.size()}"}
+    logger.info{"The at.ac.tuwien.cps.getNetwork size is: ${network.size()}"}
 
     val locSvc = createLocServiceStatic(0.0, 1.0,
                                         multiTrace.timePoints.toDouble(),
@@ -29,8 +32,8 @@ fun main() {
     smc(phi2(ROBUSTNESS), "r_p2", trajectories, locSvc)
     smc(phi3(SATISFACTION), "s_p3", trajectories, locSvc)
     smc(phi3(ROBUSTNESS), "r_p3", trajectories, locSvc)
-//    smc(phi4(SATISFACTION), "s_p4", trajectories, locSvc)
-//    smc(phi4(ROBUSTNESS), "r_p4", trajectories, locSvc)
+//    at.ac.tuwien.cps.smc(at.ac.tuwien.cps.phi4(at.ac.tuwien.cps.getSATISFACTION), "s_p4", trajectories, locSvc)
+//    at.ac.tuwien.cps.smc(at.ac.tuwien.cps.phi4(at.ac.tuwien.cps.getROBUSTNESS), "r_p4", trajectories, locSvc)
 
     logger.info{"Operations completed. Exiting."}
 }

@@ -1,3 +1,5 @@
+package at.ac.tuwien.cps
+
 import at.ac.tuwien.cps.grid.Grid
 import eu.quanticol.moonlight.domain.BooleanDomain
 import eu.quanticol.moonlight.domain.DoubleDomain
@@ -20,22 +22,21 @@ import kotlin.math.log10
  * Internals
  */
 val logger = KotlinLogging.logger {}
-const val INVALID_DOMAIN = "Unsupported Signal Domain!"
 
 /**
  * Source files location
  */
-const val DATA_DIR = "ar_Normal/"
-//const val DATA_DIR = "ar_rhoS0_Normal/"
-//const val DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
-//const val DATA_DIR = "ar_rhoS05_Normal/"
-//const val DATA_DIR = "CARar_3_steps_ahead/"
+//const val at.ac.tuwien.cps.DATA_DIR = "ar_Normal/"
+//const val at.ac.tuwien.cps.DATA_DIR = "ar_rhoS0_Normal/"
+const val DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
+//const val at.ac.tuwien.cps.DATA_DIR = "ar_rhoS05_Normal/"
+//const val at.ac.tuwien.cps.DATA_DIR = "CARar_3_steps_ahead/"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
-const val TRACES = 10
+const val TRACES = 1
 
 /**
- * We initialize the domains and the spatial network
+ * We initialize the domains and the spatial at.ac.tuwien.cps.getNetwork
  * @see Grid for a description of the spatial model.
  */
 val network: SpatialModel<Double> = Grid().getModel(path(NETWORK_FILE))
@@ -48,7 +49,7 @@ val multiTrace = MultiRawTrajectoryExtractor(network.size(), processor)
 
 
 
-private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_144_h_"
+private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_142_h_"
 private const val TRACE_FILE_EXT = ".csv"
 
 /**
