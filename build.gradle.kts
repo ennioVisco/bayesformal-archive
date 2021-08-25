@@ -80,5 +80,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("at.ac.tuwien.cps.SingleTrace")
+    mainClass.set("at.ac.tuwien.cps.SingleTraceKt")
 }

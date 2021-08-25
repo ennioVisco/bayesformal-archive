@@ -12,7 +12,6 @@ import eu.quanticol.moonlight.util.TestUtils
 import java.util.function.ToDoubleFunction
 import kotlinx.coroutines.*
 
-class SingleTrace {
     private val RESULT = "_grid_21x21_T_142.csv"
 
     fun main() {
@@ -88,4 +87,3 @@ class SingleTrace {
         logger.info { "Saving output in :$trace" }
         return trace
     }
-}
