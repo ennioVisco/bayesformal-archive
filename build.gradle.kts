@@ -1,9 +1,20 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+group = "tuwien.cps"
+version = "1.0-SNAPSHOT"
+
 plugins {
+    // Kotlin support
     kotlin("jvm") version "1.5.21"
+
+    // Package publishing
     `maven-publish`
+
+    // CLI runnable
     application
+
+    // Dependency analysis
+    id("org.kordamp.gradle.jdeps") version "0.15.0"
 }
 
 publishing {
@@ -26,7 +37,7 @@ publishing {
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                     }
                 }
                 developers {
@@ -56,11 +67,9 @@ publishing {
     }
 }
 
-group = "tuwien.cps"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -69,6 +78,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:1.7.29")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     testImplementation(kotlin("test"))
+    compileOnly("org.kordamp.gradle:jdeps-gradle-plugin:0.15.0")
 }
 
 tasks.test {

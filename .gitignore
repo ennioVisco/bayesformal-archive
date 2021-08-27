@@ -4,3 +4,6 @@
 #output/**/*.csv
 /build/*
 .idea/sonarlint
+.idea/jarRepositories.xml
+.ipynb_checkpoints/
+charts/
