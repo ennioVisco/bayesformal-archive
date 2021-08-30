@@ -34,7 +34,7 @@ const val DATA_DIR = "ar_BNP/"
 //const val DATA_DIR = "CARar_3_steps_ahead/"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
-const val TRACES = 31
+const val TRACES = 100
 
 /**
  * We initialize the domains and the spatial at.ac.tuwien.cps.getNetwork
