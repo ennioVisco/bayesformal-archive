@@ -26,15 +26,15 @@ val logger = KotlinLogging.logger {}
 /**
  * Source files location
  */
-//const val at.ac.tuwien.cps.DATA_DIR = "ar_Normal/"
-//const val at.ac.tuwien.cps.DATA_DIR = "ar_rhoS0_Normal/"
+//const val DATA_DIR = "ar_Normal/"
+//const val DATA_DIR = "ar_rhoS0_Normal/"
 //const val DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
 const val DATA_DIR = "ar_BNP/"
-//const val at.ac.tuwien.cps.DATA_DIR = "ar_rhoS05_Normal/"
-//const val at.ac.tuwien.cps.DATA_DIR = "CARar_3_steps_ahead/"
+//const val DATA_DIR = "ar_rhoS05_Normal/"
+//const val DATA_DIR = "CARar_3_steps_ahead/"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
-const val TRACES = 10
+const val TRACES = 31
 
 /**
  * We initialize the domains and the spatial at.ac.tuwien.cps.getNetwork
@@ -50,7 +50,7 @@ val multiTrace = MultiRawTrajectoryExtractor(network.size(), processor)
 
 
 
-private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_142_h_"
+private const val TRACE_FILE_PART = "_trajectories_grid_21x21_T_141_h_"
 private const val TRACE_FILE_EXT = ".csv"
 
 /**

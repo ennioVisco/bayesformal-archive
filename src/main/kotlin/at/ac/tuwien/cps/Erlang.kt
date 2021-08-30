@@ -32,8 +32,8 @@ fun main() {
     smc(phi2(ROBUSTNESS), "r_p2", trajectories, locSvc)
     smc(phi3(SATISFACTION), "s_p3", trajectories, locSvc)
     smc(phi3(ROBUSTNESS), "r_p3", trajectories, locSvc)
-//    at.ac.tuwien.cps.smc(at.ac.tuwien.cps.phi4(at.ac.tuwien.cps.getSATISFACTION), "s_p4", trajectories, locSvc)
-//    at.ac.tuwien.cps.smc(at.ac.tuwien.cps.phi4(at.ac.tuwien.cps.getROBUSTNESS), "r_p4", trajectories, locSvc)
+//    smc(phi4(SATISFACTION), "s_p4", trajectories, locSvc)
+//    smc(phi4(ROBUSTNESS), "r_p4", trajectories, locSvc)
 
     logger.info{"Operations completed. Exiting."}
 }
