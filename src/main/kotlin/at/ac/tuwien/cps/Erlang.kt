@@ -15,7 +15,9 @@ private const val RESULT = "_smc_grid_21x21_T_144.csv"
 
 
 fun main() {
-    logger.info{"The at.ac.tuwien.cps.getNetwork size is: ${network.size()}"}
+    logger.info{"Running Erlang class"}
+    Thread.sleep(10_000)
+    logger.info{"The Network size is: ${network.size()}"}
 
     val locSvc = createLocServiceStatic(0.0, 1.0,
                                         multiTrace.timePoints.toDouble(),

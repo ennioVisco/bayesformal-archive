@@ -74,9 +74,9 @@ repositories {
 
 dependencies {
     implementation(files("lib/moonlight.jar"))
-    implementation("io.github.microutils:kotlin-logging-jvm:2.0.6")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.10")
     implementation("org.slf4j:slf4j-simple:1.7.29")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     testImplementation(kotlin("test"))
     compileOnly("org.kordamp.gradle:jdeps-gradle-plugin:0.15.0")
 }
@@ -90,5 +90,9 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("at.ac.tuwien.cps.ErlangKt")
+    // we take in the -Pclass=CLASS_NAME the relative classname to run
+    // if empty, we run the `Erlang` class
+    val exec = project.findProperty("main")?.toString() ?: "Erlang"
+    fun pkg(name: String) = "at.ac.${group}.${name}Kt"
+    mainClass.set(pkg(exec))
 }
