@@ -26,12 +26,12 @@ val logger = KotlinLogging.logger {}
 /**
  * Source files location
  */
-//const val DATA_DIR = "ar_Normal/"
-//const val DATA_DIR = "ar_rhoS0_Normal/"
-//const val DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
-const val DATA_DIR = "ar_BNP/"
-//const val DATA_DIR = "ar_rhoS05_Normal/"
-//const val DATA_DIR = "CARar_3_steps_ahead/"
+//var DATA_DIR = "ar_Normal/"
+//var DATA_DIR = "ar_rhoS0_Normal/"
+//var DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
+var DATA_DIR = "ar_BNP/"
+//var DATA_DIR = "ar_rhoS05_Normal/"
+//var DATA_DIR = "CARar_3_steps_ahead/"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
 const val TRACES = 100
@@ -59,6 +59,14 @@ private const val TRACE_FILE_EXT = ".csv"
 val ROBUSTNESS: SignalDomain<Double> = DoubleDomain()
 val SATISFACTION: SignalDomain<Boolean> = BooleanDomain()
 
+fun selectModel(args: Array<String>) {
+    if(args.isNotEmpty()) {
+        DATA_DIR = "${args[0]}/"
+        logger.info{"Running SingleTrace class"}
+    }
+    logger.info{"Running on model $DATA_DIR"}
+    Thread.sleep(10_000)
+}
 
 fun loadTrajectories(spaceSize: Int, last: Int): MutableList<MultiValuedTrace> {
     val trajectories: MutableList<MultiValuedTrace> = ArrayList()

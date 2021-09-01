@@ -14,10 +14,11 @@ import java.io.File
 
 private const val RESULT = "_grid_21x21_T_142.csv"
 
-fun main() {
+fun main(args: Array<String>) {
     logger.info{"Running SingleTrace class"}
-    Thread.sleep(10_000)
+    selectModel(args)
     logger.info { "The Network size is: " + network.size() }
+
     val locService = TestUtils.createLocServiceStatic(
         0.0, 1.0,
         multiTrace.timePoints.toDouble(),

@@ -90,7 +90,7 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    // we take in the -Pclass=CLASS_NAME the relative classname to run
+    // we take in the -Pmain=CLASS_NAME the relative classname to run
     // if empty, we run the `Erlang` class
     val exec = project.findProperty("main")?.toString() ?: "Erlang"
     fun pkg(name: String) = "at.ac.${group}.${name}Kt"
