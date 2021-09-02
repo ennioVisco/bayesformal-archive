@@ -21,13 +21,16 @@ fun <D> real_phi1(d: SignalDomain<D>):
     )
 }
 
+fun <D> gp1(d: SignalDomain<D>):
+        SpatialTemporalMonitor<Double, List<Comparable<*>>, D> {
+    return globallyMonitor(phi1(d), d)
+}
 
 /**
  * P1 paper, crowdedness goes down at some point
  */
 fun <D> phi1(d: SignalDomain<D>):
-        SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
-{
+        SpatialTemporalMonitor<Double, List<Comparable<*>>, D> {
     return impliesMonitor(
         notMonitor(isNotCrowded(d), d),
         d,

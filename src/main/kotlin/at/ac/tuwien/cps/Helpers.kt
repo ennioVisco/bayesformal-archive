@@ -62,7 +62,6 @@ val SATISFACTION: SignalDomain<Boolean> = BooleanDomain()
 fun selectModel(args: Array<String>) {
     if(args.isNotEmpty()) {
         DATA_DIR = "${args[0]}/"
-        logger.info{"Running SingleTrace class"}
     }
     logger.info{"Running on model $DATA_DIR"}
     Thread.sleep(10_000)

@@ -28,12 +28,21 @@ fun main(args: Array<String>) {
     // Fake property to plot real data
     smc(phi0(), "real", trajectories, locSvc)
 
+    // P1
     smc(phi1(SATISFACTION), "s_p1", trajectories, locSvc)
     smc(phi1(ROBUSTNESS), "r_p1", trajectories, locSvc)
+    smc(gp1(SATISFACTION), "s_gp1", trajectories, locSvc)
+    smc(gp1(ROBUSTNESS), "r_gp1", trajectories, locSvc)
+
+    // P2
     smc(phi2(SATISFACTION), "s_p2", trajectories, locSvc)
     smc(phi2(ROBUSTNESS), "r_p2", trajectories, locSvc)
+
+    // P3
     smc(phi3(SATISFACTION), "s_p3", trajectories, locSvc)
     smc(phi3(ROBUSTNESS), "r_p3", trajectories, locSvc)
+
+    // P4
     smc(phi4(SATISFACTION), "s_p4", trajectories, locSvc)
     smc(phi4(ROBUSTNESS), "r_p4", trajectories, locSvc)
 

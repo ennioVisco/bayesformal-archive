@@ -13,10 +13,10 @@ val D1 = Grid.distance(0.0, 1.0)
  */
 fun <D> phi4(d: SignalDomain<D>):
         SpatialTemporalMonitor<Double, List<Comparable<*>>, D> {
-    return orMonitor(phi4Part1(d), d,
-            orMonitor(phi4Part2(d), d,
-                orMonitor(phi4Part3(d), d,
-                    phi4Part4(d))))
+    return orMonitor(isHospital(d), d,
+            orMonitor(phi4Part1(d), d,
+                orMonitor(phi4Part2(d), d,
+                    orMonitor(phi4Part3(d), d, phi4Part4(d)))))
 }
 
 fun <D> phi4Part1(d: SignalDomain<D>):
