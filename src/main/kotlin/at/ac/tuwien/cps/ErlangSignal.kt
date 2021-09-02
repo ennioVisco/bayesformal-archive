@@ -68,7 +68,8 @@ class ErlangSignal(private val dimensions: Int) : SignalProcessor<Float> {
     private fun isHospital(l: Int): Boolean {
         // Starting from (0,0)
         // Hospitals: (4,10) | (12,8) | (10,17)
-        return l == 4 + 10 * 21 || l == 12 + 8 * 21 || l == 10 + 17 * 21
+        return l == 4 + 10 * 21  || l == 12 + 8 * 21 ||
+               l == 10 + 17 * 21 || l == 19 + 11 * 21
     }
 
     companion object {
