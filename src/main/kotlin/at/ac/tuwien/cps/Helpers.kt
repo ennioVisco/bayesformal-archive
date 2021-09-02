@@ -26,12 +26,12 @@ val logger = KotlinLogging.logger {}
 /**
  * Source files location
  */
-//var DATA_DIR = "ar_Normal/"
-//var DATA_DIR = "ar_rhoS0_Normal/"
-//var DATA_DIR = "ar_rhoS0_rhoT0_Normal/"
-var DATA_DIR = "ar_BNP/"
-//var DATA_DIR = "ar_rhoS05_Normal/"
-//var DATA_DIR = "CARar_3_steps_ahead/"
+val MODELS = listOf("ar_Normal",
+                    "ar_rhoS0_Normal",
+                    "ar_rhoS0_rhoT0_Normal",
+                    "ar_rhoS05_Normal",
+                    "ar_BNP")
+var DATA_DIR = "ar_BNP"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
 const val TRACES = 100
@@ -67,11 +67,12 @@ fun selectModel(args: Array<String>) {
     Thread.sleep(10_000)
 }
 
-fun loadTrajectories(spaceSize: Int, last: Int): MutableList<MultiValuedTrace> {
+fun loadTrajectories(spaceSize: Int, last: Int, model: String = DATA_DIR):
+        MutableList<MultiValuedTrace> {
     val trajectories: MutableList<MultiValuedTrace> = ArrayList()
     for (i in 1..last) {
         val t = i.padString()
-        trajectories.add(loadTrajectory(t, spaceSize))
+        trajectories.add(loadTrajectory(t, spaceSize, model))
         logger.info("Trajectory $t loaded successfully!")
     }
     return trajectories
@@ -97,12 +98,12 @@ fun Int.padString(n: Int = 100): String {
                .padStart(log10(n.toDouble()).toInt() + 1, '0')
 }
 
-fun loadTrajectory(i: String, networkSize: Int): MultiValuedTrace {
+fun loadTrajectory(i: String, networkSize: Int, model: String): MultiValuedTrace {
     val processor = ErlangSignal(4)
     val extractor = MultiRawTrajectoryExtractor(networkSize, processor)
     DataReader(path(REAL_DATA), FileType.CSV, extractor).read()
     for (p in 1..3) {
-        val path = path("$DATA_DIR$i$TRACE_FILE_PART$p$TRACE_FILE_EXT")
+        val path = path("$model/$i$TRACE_FILE_PART$p$TRACE_FILE_EXT")
         DataReader(path, FileType.CSV, extractor).read()
     }
     return processor.generateSignal()

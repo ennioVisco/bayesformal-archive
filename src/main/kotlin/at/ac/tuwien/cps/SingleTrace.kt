@@ -24,18 +24,37 @@ fun main(args: Array<String>) {
         multiTrace.timePoints.toDouble(),
         network
     )
-    val trajectories = loadTrajectories(network.size(), TRACES)
+
+    val trajectories = loadTrajectories(network.size(), TRACES, MODELS[0])
     val booleans = ToDoubleFunction { x: Boolean -> if (x) 1.0 else 0.0 }
     val doubles = ToDoubleFunction { obj: Double -> obj }
-
     run("p1/s", booleans, trajectories, locService, phi1(SATISFACTION))
     run("p1/r", doubles, trajectories, locService, phi1(ROBUSTNESS))
     run("p2/s", booleans, trajectories, locService, phi2(SATISFACTION))
     run("p2/r", doubles, trajectories, locService, phi2(ROBUSTNESS))
     run("p3/s", booleans, trajectories, locService, phi3(SATISFACTION))
     run("p3/r", doubles, trajectories, locService, phi3(ROBUSTNESS))
-    run("p4/s", booleans, trajectories, locService, phi4(SATISFACTION))
-    run("p4/r", doubles, trajectories, locService, phi4(ROBUSTNESS))
+//    run("p4/s", booleans, trajectories, locService, phi4(SATISFACTION))
+//    run("p4/r", doubles, trajectories, locService, phi4(ROBUSTNESS))
+
+//    for(model in MODELS) {
+//        runAll(locService, model)
+//    }
+
+}
+
+fun runAll(locService: LocationService<Double, Double>, model: String) {
+    val trajectories = loadTrajectories(network.size(), TRACES, model)
+    val booleans = ToDoubleFunction { x: Boolean -> if (x) 1.0 else 0.0 }
+    val doubles = ToDoubleFunction { obj: Double -> obj }
+    run("p1/s", booleans, trajectories, locService, phi1(SATISFACTION))
+    run("p1/r", doubles, trajectories, locService, phi1(ROBUSTNESS))
+    run("p2/s", booleans, trajectories, locService, phi2(SATISFACTION))
+    run("p2/r", doubles, trajectories, locService, phi2(ROBUSTNESS))
+    run("p3/s", booleans, trajectories, locService, phi3(SATISFACTION))
+    run("p3/r", doubles, trajectories, locService, phi3(ROBUSTNESS))
+//    run("p4/s", booleans, trajectories, locService, phi4(SATISFACTION))
+//    run("p4/r", doubles, trajectories, locService, phi4(ROBUSTNESS))
 }
 
 private fun <D> run(
@@ -98,7 +117,7 @@ private fun prepareDestination(path: String) {
 
 
 private fun outputFile(ext1: String, ext2: String): String {
-    val trace = "output/$DATA_DIR${ext1}_${ext2}_K${K.toInt()}$RESULT"
+    val trace = "output/$DATA_DIR/${ext1}_${ext2}_K${K.toInt()}$RESULT"
     logger.info { "Saving output in :$trace" }
     return trace
 }
