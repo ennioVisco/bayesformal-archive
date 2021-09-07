@@ -63,7 +63,7 @@ private fun <D> smc(
 
 
 private fun outputFile(ext1: String, ext2: String, model: String): String {
-    val trace = "output/$model${ext1}_${ext2}_K${K.toInt()}$RESULT"
+    val trace = "output/$model/${ext1}_${ext2}_K${K.toInt()}$RESULT"
     logger.info { "Saving output in: $trace" }
     return trace
 }

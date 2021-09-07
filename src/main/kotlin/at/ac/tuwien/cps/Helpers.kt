@@ -34,7 +34,7 @@ private val MODELS = listOf("ar_Normal",
                             "ar_rhoS0_rhoT0_Normal",
                             "ar_rhoS05_Normal",
                             "ar_BNP")
-var DEFAULT_MODEL = "ar_BNP"
+const val DEFAULT_MODEL = "ar_BNP"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
 const val TRACES = 100
