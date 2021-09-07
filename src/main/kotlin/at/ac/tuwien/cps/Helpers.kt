@@ -8,10 +8,13 @@ import eu.quanticol.moonlight.io.DataReader
 import eu.quanticol.moonlight.io.FileType
 import eu.quanticol.moonlight.io.parsing.MultiRawTrajectoryExtractor
 import eu.quanticol.moonlight.signal.SpatialTemporalSignal
+import eu.quanticol.moonlight.space.LocationService
 import eu.quanticol.moonlight.space.SpatialModel
 import eu.quanticol.moonlight.statistics.SignalStatistics.Statistics
 import eu.quanticol.moonlight.util.MultiValuedTrace
+import eu.quanticol.moonlight.util.TestUtils
 import mu.KotlinLogging
+import java.io.File
 import java.io.InputStream
 import java.lang.IllegalArgumentException
 import java.util.function.ToDoubleFunction
@@ -26,12 +29,12 @@ val logger = KotlinLogging.logger {}
 /**
  * Source files location
  */
-val MODELS = listOf("ar_Normal",
-                    "ar_rhoS0_Normal",
-                    "ar_rhoS0_rhoT0_Normal",
-                    "ar_rhoS05_Normal",
-                    "ar_BNP")
-var DATA_DIR = "ar_BNP"
+private val MODELS = listOf("ar_Normal",
+                            "ar_rhoS0_Normal",
+                            "ar_rhoS0_rhoT0_Normal",
+                            "ar_rhoS05_Normal",
+                            "ar_BNP")
+var DEFAULT_MODEL = "ar_BNP"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
 const val TRACES = 100
@@ -59,20 +62,57 @@ private const val TRACE_FILE_EXT = ".csv"
 val ROBUSTNESS: SignalDomain<Double> = DoubleDomain()
 val SATISFACTION: SignalDomain<Boolean> = BooleanDomain()
 
-fun selectModel(args: Array<String>) {
-    if(args.isNotEmpty()) {
-        DATA_DIR = "${args[0]}/"
+fun runModels(models: List<String>,
+              f: (LocationService<Double, Double>, String) -> Unit)
+{
+    logger.info { "The Network size is: " + network.size() }
+
+    val locSvc = TestUtils.createLocServiceStatic(
+        0.0, 1.0,
+        multiTrace.timePoints.toDouble(),
+        network
+    )
+
+    for(model in models) {
+        logger.info{"Running on model $model"}
+        Thread.sleep(5_000)
+        f(locSvc, model)
     }
-    logger.info{"Running on model $DATA_DIR"}
-    Thread.sleep(10_000)
+
+    logger.info{"Operations completed. Exiting."}
 }
 
-fun loadTrajectories(spaceSize: Int, last: Int, model: String = DATA_DIR):
-        MutableList<MultiValuedTrace> {
+fun selectModels(args: Array<String>): List<String> {
+    return when {
+        args.isNotEmpty() -> {
+            val models = args.toList()
+            logger.info{"Received the following models: $models"}
+            models
+        }
+        else -> MODELS
+    }
+}
+
+fun prepareDestination(path: String) {
+    val folders  = path.split("/").dropLast(1)
+    var base = ""
+    for(f in folders) {
+        val file = File(base, f)
+
+        if(!file.exists())
+            File(base, f).mkdir()
+
+        base += "$f/"
+    }
+}
+
+fun loadTraces(spaceSize: Int, last: Int, model: String = DEFAULT_MODEL):
+        MutableList<MultiValuedTrace>
+{
     val trajectories: MutableList<MultiValuedTrace> = ArrayList()
     for (i in 1..last) {
         val t = i.padString()
-        trajectories.add(loadTrajectory(t, spaceSize, model))
+        trajectories.add(loadFileAsTrace(t, spaceSize, model))
         logger.info("Trajectory $t loaded successfully!")
     }
     return trajectories
@@ -98,7 +138,8 @@ fun Int.padString(n: Int = 100): String {
                .padStart(log10(n.toDouble()).toInt() + 1, '0')
 }
 
-fun loadTrajectory(i: String, networkSize: Int, model: String): MultiValuedTrace {
+fun loadFileAsTrace(i: String, networkSize: Int, model: String): MultiValuedTrace
+{
     val processor = ErlangSignal(4)
     val extractor = MultiRawTrajectoryExtractor(networkSize, processor)
     DataReader(path(REAL_DATA), FileType.CSV, extractor).read()
