@@ -37,7 +37,7 @@ private val MODELS = listOf("ar_Normal",
 const val DEFAULT_MODEL = "ar_BNP"
 const val REAL_DATA = "data_matrix_20131111.csv"
 const val NETWORK_FILE = "adjacent_matrix_milan_grid_21x21.txt"
-const val TRACES = 100
+const val TRACES = 1
 
 /**
  * We initialize the domains and the spatial at.ac.tuwien.cps.getNetwork
@@ -82,10 +82,10 @@ fun runModels(models: List<String>,
     logger.info{"Operations completed. Exiting."}
 }
 
-fun selectModels(args: Array<String>): List<String> {
+fun selectModels(names: Array<String>): List<String> {
     return when {
-        args.isNotEmpty() -> {
-            val models = args.toList()
+        names.isNotEmpty() -> {
+            val models = names.toList()
             logger.info{"Received the following models: $models"}
             models
         }
