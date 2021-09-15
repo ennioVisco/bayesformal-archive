@@ -5,8 +5,8 @@ import eu.quanticol.moonlight.domain.SignalDomain
 import eu.quanticol.moonlight.monitoring.spatialtemporal.SpatialTemporalMonitor
 import eu.quanticol.moonlight.monitoring.spatialtemporal.SpatialTemporalMonitor.*
 
-val D4 = Grid.distance(0.0, 4.0)
-val D1 = Grid.distance(0.0, 1.0)
+val D4 = Grid.distance(0.0, 4.0)!!
+val D1 = Grid.distance(0.0, 1.0)!!
 
 /**
  * PoiReach -> P4 paper, hospital reachability

@@ -39,7 +39,7 @@ fun <D> phi3(d: SignalDomain<D>):
         )
 }
 
-fun <D> oldphi3(d: SignalDomain<D>):
+fun <D> oldPhi3(d: SignalDomain<D>):
         SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
 {
     return impliesMonitor(
@@ -78,16 +78,16 @@ fun <D> oldphi3(d: SignalDomain<D>):
     )
 }
 
-fun <D> real_phi3(d: SignalDomain<D>):
+fun <D> realPhi3(d: SignalDomain<D>):
         SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
 {
-    return SpatialTemporalMonitor.impliesMonitor(
-        SpatialTemporalMonitor.globallyMonitor(
-            SpatialTemporalMonitor.notMonitor(isNotCrowded(d), d),
+    return impliesMonitor(
+        globallyMonitor(
+            notMonitor(isNotCrowded(d), d),
             Interval(0, 3), d
         ), d,
-        SpatialTemporalMonitor.somewhereMonitor(
-            SpatialTemporalMonitor.globallyMonitor(
+        somewhereMonitor(
+            globallyMonitor(
                 isNotCrowded(d),
                 Interval(0, 3), d
             ),

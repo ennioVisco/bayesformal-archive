@@ -8,7 +8,7 @@ import eu.quanticol.moonlight.monitoring.spatialtemporal.SpatialTemporalMonitor.
 /**
  * real-data P1 paper
  */
-fun <D> real_phi1(d: SignalDomain<D>):
+fun <D> realPhi1(d: SignalDomain<D>):
         SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
 {
     return impliesMonitor(

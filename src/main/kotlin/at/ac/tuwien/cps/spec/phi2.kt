@@ -21,7 +21,7 @@ fun <D> phi2(d: SignalDomain<D>):
     )
 }
 
-fun <D> real_phi2(d: SignalDomain<D>):
+fun <D> realPhi2(d: SignalDomain<D>):
         SpatialTemporalMonitor<Double, List<Comparable<*>>, D>
 {
     return impliesMonitor(

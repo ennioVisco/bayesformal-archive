@@ -55,9 +55,9 @@ class ErlangSignal(private val dimensions: Int) : SignalProcessor<Float> {
 
         /*
         trace.setDimension(crowd, LOC_CROWDEDNESS)    // Location Crowdedness
-             .setDimension(pred1, CROWDEDNESS_1_STEP) // 1 Step Predictor
-             .setDimension(pred2, CROWDEDNESS_2_STEP) // 2 Step Predictor
-             .setDimension(pred3, CROWDEDNESS_3_STEP) // 3 Step Predictor
+             .setDimension(pred1, CROWDEDNESS_1_STEP) // 1-Step Predictor
+             .setDimension(pred2, CROWDEDNESS_2_STEP) // 2-Step Predictor
+             .setDimension(pred3, CROWDEDNESS_3_STEP) // 3-Step Predictor
              .setDimension(at.ac.tuwien.cps.isHospital, IS_HOSPITAL)   // POI ID boolean
              .initialize();
         */trace!!.initialize()
